@@ -23,6 +23,11 @@ const CharactersService = {
         return knex("characters")
             .where({ id })
             .patch(character)
+    },
+    deleteCharacter(knex, id) {
+        return knex("characters")
+            .where({ id })
+            .delete()
     }
 }
 module.exports = CharactersService;

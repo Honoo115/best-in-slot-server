@@ -3,6 +3,7 @@ const xss = require("xss");
 const SlotsService = require('./slots-service')
 const jsonParser = express.json();
 const slotsRoute = express.Router()
+const path = require('path');
 
 const serializeSlot = slot => ({
     ...slot,
@@ -65,16 +66,17 @@ slotsRoute
         if (slot_name) {
             slotnameInput.slot_name = slot_name
         };
+        console.log("Slots router: ", slotnameInput);
         SlotsService.patchSlot(
             knexInst,
-            req.params.id,
+            req.params.slot_id,
             slotnameInput
         )
             .then(slot_id => {
                 res
                     .status(201)
                     .location(path.posix.join(req.originalUrl + `/${slot_id}`))
-                    .json(SlotsService.serializeSlot(slot_id))
+                    .json(serializeSlot(slot_id))
             })
             .catch(next);
     })

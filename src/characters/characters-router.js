@@ -16,8 +16,17 @@ charactersRoute
                 SlotsService.getSlots(req.app.get('db'))
                     .then(slots => {
                         characters.forEach(character => {
-                            const char_slots = slots.filter(slot => {
+                            // Mapping over each character
+
+                            // We're going to filter and only return the slots for the character
+                            let char_slots = slots.filter(slot => {
                                 return slot.char_id === character.id
+                            });
+
+                            // If these values are updated, they get returned out of order via the query
+                            // We run a basic sort on the ID of them to make sure they always return numerically sorted by ID
+                            char_slots.sort((a, b) => {
+                                return a.id - b.id;
                             });
                             character.slots = char_slots;
                         });
@@ -32,7 +41,6 @@ charactersRoute
     .post(jsonParser, (req, res, next) => {
         const { char_name, class_name } = req.body
         const newNames = { char_name, class_name }
-        console.log(req.body)
         CharacterService.addCharacter(req.app.get('db'), newNames)
             .then(character => {
                 for (let i = 1; i <= 17; i++) {
