@@ -13,7 +13,6 @@ charactersRoute
     .get((req, res, next) => {
         CharacterService.getCharacters(req.app.get('db'))
             .then(characters => {
-                console.log(characters);
                 SlotsService.getSlots(req.app.get('db'))
                     .then(slots => {
                         characters.forEach(character => {
