@@ -60,7 +60,6 @@ charactersRoute
                     .location(`/character/${character.id}`)
                     .json(character)
             })
-
     })
 charactersRoute
     .route('/character/:id')
@@ -87,6 +86,12 @@ charactersRoute
     .patch((req, res, next) => {
         CharacterService.patchCharacter(req.app.get('db'),
             req.params.character_id, characterToPatch)
+            .then(res.status(204).end())
+            .catch(next)
+    })
+    .delete((req, res, next) => {
+        CharacterService.deleteCharacter(req.app.get('db'),
+            req.params.id)
             .then(res.status(204).end())
             .catch(next)
     });
