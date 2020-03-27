@@ -31,28 +31,12 @@ describe(`Character Endpoints`, () => {
 
     // Before any test runs, clean the database
     before(`clean up database`, () => {
-        return (
-            db.raw(
-                `TRUNCATE
-            characters,
-            slots
-          `
-            )
-        )
+        return db.raw('TRUNCATE characters, slots RESTART IDENTITY CASCADE;');
     });
 
     // After every test 
     afterEach(`clean up database`, () => {
-        return (
-            db.transaction(transaction => {
-                transaction.raw(
-                    `TRUNCATE
-            characters,
-            slots
-          `
-                )
-            })
-        );
+        return db.raw('TRUNCATE characters, slots RESTART IDENTITY CASCADE;');
     });
 
     const character = [{
@@ -65,10 +49,10 @@ describe(`Character Endpoints`, () => {
         return db.transaction(async trx => {
             const transactionResult = await trx.into('characters').insert(character);
             console.log(transactionResult.rows[0]);
-            await trx.raw(
-                `SELECT setval('characters_id_seq', ?)`,
-                [character[character.length [1]].id]           // undefined
-            );
+            // await trx.raw(
+            //     `SELECT setval('characters_id_seq', ?)`,
+            //     [1]       // undefined
+            // );
         });
     });
     it(`Responds with 200 with an array of characters`, () => {
