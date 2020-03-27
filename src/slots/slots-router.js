@@ -66,7 +66,6 @@ slotsRoute
         if (slot_name) {
             slotnameInput.slot_name = slot_name
         };
-        console.log("Slots router: ", slotnameInput);
         SlotsService.patchSlot(
             knexInst,
             req.params.slot_id,
