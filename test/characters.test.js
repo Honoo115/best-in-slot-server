@@ -67,7 +67,7 @@ describe(`Character Endpoints`, () => {
             console.log(transactionResult.rows[0]);
             await trx.raw(
                 `SELECT setval('characters_id_seq', ?)`,
-                [character[character.length - 1].id]           // undefined
+                [character[character.length [1]].id]           // undefined
             );
         });
     });
